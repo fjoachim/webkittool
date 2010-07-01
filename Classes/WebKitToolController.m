@@ -38,13 +38,17 @@
     [optionsParser setGetoptLongOnly: YES];
     DDGetoptOption optionTable[] = 
     {
-        // Long          Short   Argument options
-        {@"paginate",      'p',    DDGetoptNoArgument},
-        {@"orientation",   'o',    DDGetoptRequiredArgument},
-        {@"browser-width", 'w',    DDGetoptRequiredArgument},
-        {@"version",       0,      DDGetoptNoArgument},
-        {@"help",          'h',    DDGetoptNoArgument},
-        {nil,              0,      0},
+        // Long             Short   Argument options
+        {@"paginate",       'p',    DDGetoptNoArgument},
+        {@"orientation",    'o',    DDGetoptRequiredArgument},
+        {@"browser-width",  'w',    DDGetoptRequiredArgument},
+        {@"header-left-js",  0,     DDGetoptRequiredArgument},
+        {@"header-right-js", 0,     DDGetoptRequiredArgument},
+        {@"footer-left-js",  0,     DDGetoptRequiredArgument},
+        {@"footer-right-js", 0,     DDGetoptRequiredArgument},
+        {@"version",         0,     DDGetoptNoArgument},
+        {@"help",           'h',    DDGetoptNoArgument},
+        {nil,                0,     0},
     };
     [optionsParser addOptionsFromTable: optionTable];
 }
@@ -82,11 +86,22 @@
 	
 	NSString *outputPath = [arguments objectAtIndex:1];
 	
+	NSMutableDictionary *headerAndFooterJavaScriptDict = [NSMutableDictionary dictionaryWithCapacity:4];
+	if (_headerLeftJs)
+		[headerAndFooterJavaScriptDict setObject:_headerLeftJs forKey:@"headerLeft"];
+	if (_headerRightJs)
+		[headerAndFooterJavaScriptDict setObject:_headerRightJs forKey:@"headerRight"];
+	if (_footerLeftJs)
+		[headerAndFooterJavaScriptDict setObject:_footerLeftJs forKey:@"footerLeft"];
+	if (_footerRightJs)
+		[headerAndFooterJavaScriptDict setObject:_footerRightJs forKey:@"footerRight"];
+	
 	_exitCode = EXIT_SUCCESS;
 	CaptureManager *manager = [[CaptureManager alloc] initWithURL:webURL outputPath:outputPath];
 	[manager setDelegate:self];
 	[manager setPaginate:_paginate];
 	[manager setPrintingOrientation:_orientation];
+	[manager setPrintingHeaderAndFooterJavaScript:headerAndFooterJavaScriptDict];
 	[manager startCapture];
 		
     return _exitCode;
@@ -109,6 +124,10 @@
            "  -w, --browserwidth            Set browser withd in pixel.\n"
            "  -p, --paginage                Create multipage PDF\n"
            "  -o, --orientation             Set PDF orientation: 'portrait' or 'landscape'\n"
+           "      --header-left-js          Set PDF left header:  JavaScript expression\n"
+           "      --header-right-js         Set PDF right header: JavaScript expression\n"
+           "      --footer-left-js          Set PDF left footer:  JavaScript expression\n"
+           "      --footer-right-js         Set PDF right footer: JavaScript expression\n"
            "      --version                 Display version and exit\n"
            "  -h, --help                    Display this help and exit\n"
            "\n"

@@ -26,6 +26,7 @@ typedef enum {
 	BOOL paginate;
 	NSSize paperSize;
 	NSPrintingOrientation printingOrientation;
+	NSDictionary *printingHeaderAndFooterJavaScript;
 	float browserWidth;
 	id<CaptureManagerDelegate> delegate;
 @private
@@ -38,6 +39,7 @@ typedef enum {
 - (void)setPaginate:(BOOL)doPaginate;
 - (void)setPaperSize:(NSSize)size;
 - (void)setPrintingOrientation:(NSPrintingOrientation)orientation;
+- (void)setPrintingHeaderAndFooterJavaScript:(NSDictionary *)dict;
 - (void)setBrowserWidth:(float)width;
 
 @end

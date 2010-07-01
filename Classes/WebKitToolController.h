@@ -15,6 +15,10 @@
     int _verbosity;
 	float _browserWidth;
 	NSPrintingOrientation _orientation;
+	NSString *_headerLeftJs;
+	NSString *_headerRightJs;
+	NSString *_footerLeftJs;
+	NSString *_footerRightJs;
     BOOL _paginate;
     BOOL _version;
     BOOL _help;

@@ -39,6 +39,8 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 
 - (WebView *)webView;
 - (NSWindow *)embedWebViewInWindow;
+- (NSAttributedString *)attributedStringWithString:(NSString *)aString textAlignment:(NSTextAlignment)alignment;
+- (void)setPrintInfoForWebView:(WebView *)webView;
 - (void)writePDF:(WebView *)sender;
 - (void)writePaginatedPDF:(WebView *)sender;
 - (void)writeBitmap:(WebView *)sender format:(CaptureOutputFormat)format;
@@ -57,6 +59,7 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 		finished = NO;
 		paginate = NO;
 		printingOrientation = NSPortraitOrientation;
+		printingHeaderAndFooterJavaScript = nil;
 		paperSize = NSMakeSize(595,842);
 		browserWidth = 800.0;
 	}
@@ -65,6 +68,7 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 
 - (void)dealloc
 {
+	[printingHeaderAndFooterJavaScript release];
 	[ouputPath release];
 	[theURL release];
 	[super dealloc];
@@ -92,6 +96,11 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 	printingOrientation = orientation;
 }
 
+- (void)setPrintingHeaderAndFooterJavaScript:(NSDictionary *)dict
+{
+	printingHeaderAndFooterJavaScript = [dict retain];
+}
+
 - (void)setBrowserWidth:(float)width
 {
 	browserWidth = width;
@@ -107,6 +116,7 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 		
 		webView = [[WebView alloc] initWithFrame:NSMakeRect(0.0, 0.0, browserWidth, 1.0) frameName:@"frame" groupName:@"group"];
 		[webView setFrameLoadDelegate:self];
+		[webView setUIDelegate:self];
 		[webView setMediaStyle:@"screen"];
 		[webView setPreferences:preferences];		
 	}
@@ -139,6 +149,31 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 
 #pragma mark Private methods
 
+- (NSAttributedString *)attributedStringWithString:(NSString *)aString textAlignment:(NSTextAlignment)alignment
+{
+	NSFont *stringFont = [NSFont fontWithName:@"Helvetica" size:8.0];
+	NSDictionary *stringAttributes = [NSDictionary dictionaryWithObject:stringFont forKey:NSFontAttributeName];
+	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:aString attributes:stringAttributes];
+	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	[paragraphStyle setAlignment:alignment];
+	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [attributedString length])];
+	[paragraphStyle release];
+	return [attributedString autorelease];
+}
+
+- (void)setPrintInfoForWebView:(WebView *)webView
+{
+	NSPrintOperation *printOperation = [NSPrintOperation currentOperation];
+	int currentPage = [printOperation currentPage];
+	int pageCount = 0;
+	NSRange pageRange;
+	BOOL success = [[printOperation view] knowsPageRange:&pageRange];
+	if (success) {
+		pageCount = pageRange.length;
+	}
+	[webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.printInfo = { currentPage: %d, pageCount: %d }", currentPage, pageCount]];
+}
+
 - (void)writePDF:(WebView *)sender
 {
 	NSView *documentView = [[[sender mainFrame] frameView] documentView];
@@ -167,8 +202,8 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 	[printInfo setBottomMargin:16.0];
 	[printInfo setLeftMargin:16.0];
 	
-	NSView *documentView = [[[sender mainFrame] frameView] documentView];
-    NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:documentView printInfo:printInfo];
+	WebFrameView *frameView = [[sender mainFrame] frameView];
+	NSPrintOperation *printOperation = [frameView printOperationWithPrintInfo:printInfo];
 	[printOperation setShowPanels:NO];
 	[printOperation runOperation];
 }
@@ -226,7 +261,7 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 					[self writePaginatedPDF:sender];
 				} else {
 					[self writePDF:sender];
-				}				
+				}
 				break;
 			case CaptureFormatPNG:
 			case CaptureFormatJPEG:
@@ -236,7 +271,64 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 				[delegate captureManager:self didFailWithError:[NSError errorWithDomain:NSCocoaErrorDomain code:0 userInfo:nil]];
 				break;
 		}
-		
+	}
+}
+
+#pragma mark WebUIDelegate methods
+
+- (float)webViewHeaderHeight:(WebView *)sender
+{
+	BOOL hasHeader = [printingHeaderAndFooterJavaScript objectForKey:@"headerLeft"] || [printingHeaderAndFooterJavaScript objectForKey:@"headerRight"];
+	return hasHeader ? 16.0 : 0.0;
+}
+
+- (void)webView:(WebView *)sender drawHeaderInRect:(NSRect)rect
+{
+	[self setPrintInfoForWebView: sender];	
+	float halfWidth = rect.size.width / 2.0;
+
+	NSString *leftJavaScript = [printingHeaderAndFooterJavaScript objectForKey:@"headerLeft"];
+	if (leftJavaScript) {
+		NSString *string = [sender stringByEvaluatingJavaScriptFromString:leftJavaScript];
+		NSAttributedString *attributedString = [self attributedStringWithString:string textAlignment:NSLeftTextAlignment];
+		NSRect leftRect = NSMakeRect(rect.origin.x, rect.origin.y, halfWidth, rect.size.height);
+		[attributedString drawInRect:leftRect];		
+	}
+	
+	NSString *rightJavaScript =[printingHeaderAndFooterJavaScript objectForKey:@"headerRight"];
+	if (rightJavaScript) {
+		NSString *string = [sender stringByEvaluatingJavaScriptFromString:rightJavaScript];
+		NSAttributedString *attributedString = [self attributedStringWithString:string textAlignment:NSRightTextAlignment];
+		NSRect rightRect = NSMakeRect(rect.origin.x + halfWidth, rect.origin.y, halfWidth, rect.size.height);
+		[attributedString drawInRect:rightRect];
+	}
+}
+
+- (float)webViewFooterHeight:(WebView *)sender
+{
+	BOOL hasFooter = [printingHeaderAndFooterJavaScript objectForKey:@"footerLeft"] || [printingHeaderAndFooterJavaScript objectForKey:@"footerRight"];
+	return hasFooter ? 16.0 : 0.0;
+}
+
+- (void)webView:(WebView *)sender drawFooterInRect:(NSRect)rect
+{
+	[self setPrintInfoForWebView: sender];	
+	float halfWidth = rect.size.width / 2.0;
+
+	NSString *leftJavaScript = [printingHeaderAndFooterJavaScript objectForKey:@"footerLeft"];
+	if (leftJavaScript) {
+		NSString *string = [sender stringByEvaluatingJavaScriptFromString:leftJavaScript];
+		NSAttributedString *attributedString = [self attributedStringWithString:string textAlignment:NSLeftTextAlignment];
+		NSRect leftRect = NSMakeRect(rect.origin.x, rect.origin.y, halfWidth, rect.size.height);
+		[attributedString drawInRect:leftRect];		
+	}
+	
+	NSString *rightJavaScript =[printingHeaderAndFooterJavaScript objectForKey:@"footerRight"];
+	if (rightJavaScript) {
+		NSString *string = [sender stringByEvaluatingJavaScriptFromString:rightJavaScript];
+		NSAttributedString *attributedString = [self attributedStringWithString:string textAlignment:NSRightTextAlignment];
+		NSRect rightRect = NSMakeRect(rect.origin.x + halfWidth, rect.origin.y, halfWidth, rect.size.height);
+		[attributedString drawInRect:rightRect];
 	}
 }
 
