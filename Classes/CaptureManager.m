@@ -279,7 +279,7 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 - (float)webViewHeaderHeight:(WebView *)sender
 {
 	BOOL hasHeader = [printingHeaderAndFooterJavaScript objectForKey:@"headerLeft"] || [printingHeaderAndFooterJavaScript objectForKey:@"headerRight"];
-	return hasHeader ? 16.0 : 0.0;
+	return hasHeader ? 20.0 : 0.0;
 }
 
 - (void)webView:(WebView *)sender drawHeaderInRect:(NSRect)rect
@@ -307,13 +307,15 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 - (float)webViewFooterHeight:(WebView *)sender
 {
 	BOOL hasFooter = [printingHeaderAndFooterJavaScript objectForKey:@"footerLeft"] || [printingHeaderAndFooterJavaScript objectForKey:@"footerRight"];
-	return hasFooter ? 16.0 : 0.0;
+	return hasFooter ? 20.0 : 0.0;
 }
 
 - (void)webView:(WebView *)sender drawFooterInRect:(NSRect)rect
 {
 	[self setPrintInfoForWebView: sender];	
 	float halfWidth = rect.size.width / 2.0;
+	rect.origin.y -= 4.0;
+	rect.size.height -= 4.0;
 
 	NSString *leftJavaScript = [printingHeaderAndFooterJavaScript objectForKey:@"footerLeft"];
 	if (leftJavaScript) {
