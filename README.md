@@ -52,17 +52,32 @@ For PDF files, you can use following options:
 
     Sets the page orientation: 'portrait' (default) or 'landscape'.
 
+* `--header-left-js`, `--header-right-js`, `--footer-left-js`, `--footer-right-js`
+
+    Sets a JavaScript expression to be evaluated for setting header and footer texts.
+    The `window` object has an additional object called `printInfo` with the properties
+    `currentPage` and `pageCount`.
+
 
 Examples
 --------
 
+Creating a PNG image of www.google.com:
+
+    ./WebKitTool www.google.com google.png
+    
 Creating a single page PDF of www.google.com:
 
     ./WebKitTool www.google.com google.pdf
-    
-Creating a multipage PDF of www.engadget.com:
 
-    ./WebKitTool -p http://www.engadget.com engadget.pdf
+Creating a multipage PDF of www.engadget.com with headers and footers:
+
+    ./WebKitTool -p \
+      --header-left-js document.title \
+      --header-right-js "new Date().toLocaleString()" \
+      --footer-left-js document.location.href \
+      --footer-right-js "'Page ' + window.printInfo.currentPage + ' of ' + window.printInfo.pageCount" \
+      http://www.engadget.com engadget.pdf
 
 
 Additional Information
