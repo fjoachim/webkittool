@@ -162,6 +162,10 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 	[printInfo setVerticallyCentered:NO];
 	[printInfo setOrientation:printingOrientation];
 	[printInfo setPaperSize:paperSize];
+	[printInfo setTopMargin:16.0];
+	[printInfo setRightMargin:16.0];
+	[printInfo setBottomMargin:16.0];
+	[printInfo setLeftMargin:16.0];
 	
 	NSView *documentView = [[[sender mainFrame] frameView] documentView];
     NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:documentView printInfo:printInfo];
