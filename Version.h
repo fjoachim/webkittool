@@ -6,4 +6,4 @@
 //  Copyright 2010 Joachim Fornallaz. All rights reserved.
 //
 
-#define CURRENT_MARKETING_VERSION "0.5"
+#define CURRENT_MARKETING_VERSION "0.6"

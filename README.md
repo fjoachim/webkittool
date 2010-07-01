@@ -1,7 +1,7 @@
 WebKitTool
 ==========
 
-Version 0.5 - Source available on [GitHub](http://github.com/fjoachim/webkittool).
+Version 0.6 - Source available on [GitHub](http://github.com/fjoachim/webkittool).
 
 Copyright 2010 Joachim Fornallaz. All rights reserved.
 
