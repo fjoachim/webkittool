@@ -113,14 +113,14 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 	if (webView == nil) {
 		WebPreferences *preferences = [WebPreferences standardPreferences];
 		[preferences setShouldPrintBackgrounds:YES];
-		
+
 		webView = [[WebView alloc] initWithFrame:NSMakeRect(0.0, 0.0, browserWidth, 1.0) frameName:@"frame" groupName:@"group"];
 		[webView setFrameLoadDelegate:self];
 		[webView setUIDelegate:self];
 		[webView setMediaStyle:@"screen"];
-		[webView setPreferences:preferences];		
+		[webView setPreferences:preferences];
 	}
-	
+
 	return webView;
 }
 
@@ -133,7 +133,7 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 		window = [[NSWindow alloc] initWithContentRect:[[self webView] bounds] styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
 		[window setContentView:[self webView]];
 	}
-	
+
 	return window;
 }
 
@@ -179,7 +179,7 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 	NSView *documentView = [[[sender mainFrame] frameView] documentView];
 	NSRect bounds = [documentView bounds];
 	NSData *pdfData = [documentView dataWithPDFInsideRect:bounds];
-	[pdfData writeToFile:ouputPath atomically:NO];	
+	[pdfData writeToFile:ouputPath atomically:NO];
 }
 
 - (void)writePaginatedPDF:(WebView *)sender
@@ -201,7 +201,7 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 	[printInfo setRightMargin:16.0];
 	[printInfo setBottomMargin:16.0];
 	[printInfo setLeftMargin:16.0];
-	
+
 	WebFrameView *frameView = [[sender mainFrame] frameView];
 	NSPrintOperation *printOperation = [frameView printOperationWithPrintInfo:printInfo];
 	[printOperation setShowPanels:NO];
@@ -284,7 +284,7 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 
 - (void)webView:(WebView *)sender drawHeaderInRect:(NSRect)rect
 {
-	[self setPrintInfoForWebView: sender];	
+	[self setPrintInfoForWebView: sender];
 	float halfWidth = rect.size.width / 2.0;
 
 	NSString *leftJavaScript = [printingHeaderAndFooterJavaScript objectForKey:@"headerLeft"];
@@ -292,9 +292,9 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 		NSString *string = [sender stringByEvaluatingJavaScriptFromString:leftJavaScript];
 		NSAttributedString *attributedString = [self attributedStringWithString:string textAlignment:NSLeftTextAlignment];
 		NSRect leftRect = NSMakeRect(rect.origin.x, rect.origin.y, halfWidth, rect.size.height);
-		[attributedString drawInRect:leftRect];		
+		[attributedString drawInRect:leftRect];
 	}
-	
+
 	NSString *rightJavaScript =[printingHeaderAndFooterJavaScript objectForKey:@"headerRight"];
 	if (rightJavaScript) {
 		NSString *string = [sender stringByEvaluatingJavaScriptFromString:rightJavaScript];
@@ -312,7 +312,7 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 
 - (void)webView:(WebView *)sender drawFooterInRect:(NSRect)rect
 {
-	[self setPrintInfoForWebView: sender];	
+	[self setPrintInfoForWebView: sender];
 	float halfWidth = rect.size.width / 2.0;
 	rect.origin.y -= 4.0;
 	rect.size.height -= 4.0;
@@ -322,9 +322,9 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 		NSString *string = [sender stringByEvaluatingJavaScriptFromString:leftJavaScript];
 		NSAttributedString *attributedString = [self attributedStringWithString:string textAlignment:NSLeftTextAlignment];
 		NSRect leftRect = NSMakeRect(rect.origin.x, rect.origin.y, halfWidth, rect.size.height);
-		[attributedString drawInRect:leftRect];		
+		[attributedString drawInRect:leftRect];
 	}
-	
+
 	NSString *rightJavaScript =[printingHeaderAndFooterJavaScript objectForKey:@"footerRight"];
 	if (rightJavaScript) {
 		NSString *string = [sender stringByEvaluatingJavaScriptFromString:rightJavaScript];

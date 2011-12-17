@@ -36,7 +36,7 @@
 - (void)application:(DDCliApplication *)app willParseOptions:(DDGetoptLongParser *)optionsParser
 {
     [optionsParser setGetoptLongOnly: YES];
-    DDGetoptOption optionTable[] = 
+    DDGetoptOption optionTable[] =
     {
         // Long             Short   Argument options
         {@"paginate",       'p',    DDGetoptNoArgument},
@@ -58,21 +58,21 @@
 	if (_help) {
         [self printHelp];
         return EXIT_SUCCESS;
-    }	
+    }
 
 	if (_version)
     {
         [self printVersion];
         return EXIT_SUCCESS;
     }
-	
+
     if ([arguments count] < 2) {
         ddfprintf(stderr, @"%@: You need to specify one input file and one output file\n", DDCliApp);
         [self printUsage: stderr];
         ddfprintf(stderr, @"Try `%@ --help' for more information.\n", DDCliApp);
         return EX_USAGE;
     }
-	
+
 	NSString *urlString = [arguments objectAtIndex:0];
 	NSArray *components = [urlString componentsSeparatedByString:@"://"];
 	if ([components count] == 1) {
@@ -83,9 +83,9 @@
         ddfprintf(stderr, @"%@: Could not parse '%@' as URL\n", DDCliApp, [arguments objectAtIndex:0]);
         [self printUsage: stderr];
 	}
-	
+
 	NSString *outputPath = [arguments objectAtIndex:1];
-	
+
 	NSMutableDictionary *headerAndFooterJavaScriptDict = [NSMutableDictionary dictionaryWithCapacity:4];
 	if (_headerLeftJs)
 		[headerAndFooterJavaScriptDict setObject:_headerLeftJs forKey:@"headerLeft"];
@@ -95,7 +95,7 @@
 		[headerAndFooterJavaScriptDict setObject:_footerLeftJs forKey:@"footerLeft"];
 	if (_footerRightJs)
 		[headerAndFooterJavaScriptDict setObject:_footerRightJs forKey:@"footerRight"];
-	
+
 	_exitCode = EXIT_SUCCESS;
 	CaptureManager *manager = [[CaptureManager alloc] initWithURL:webURL outputPath:outputPath];
 	[manager setDelegate:self];
@@ -103,7 +103,7 @@
 	[manager setPrintingOrientation:_orientation];
 	[manager setPrintingHeaderAndFooterJavaScript:headerAndFooterJavaScriptDict];
 	[manager startCapture];
-		
+
     return _exitCode;
 }
 
