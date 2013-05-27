@@ -204,7 +204,8 @@ NSBitmapImageFileType NSBitmapImageFileTypeFromCaptureOutputFormat(CaptureOutput
 	
 	WebFrameView *frameView = [[sender mainFrame] frameView];
 	NSPrintOperation *printOperation = [frameView printOperationWithPrintInfo:printInfo];
-	[printOperation setShowPanels:NO];
+	[printOperation setShowsPrintPanel:NO];
+	[printOperation setShowsProgressPanel:NO];
 	[printOperation runOperation];
 }
 

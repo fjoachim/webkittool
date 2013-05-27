@@ -41,8 +41,8 @@
  * @param arguments Command line arguments, post option parsing
  * @return The return value of the application
  */
-- (int) application: (DDCliApplication *) app
-   runWithArguments: (NSArray *) arguments;
+- (int)application:(DDCliApplication *)app
+  runWithArguments:(NSArray *)arguments;
 
 /**
  * Called prior to option parsing so that options may added to the
@@ -51,8 +51,8 @@
  * @param app The corresponding application instance
  * @param optionParser The option parser.
  */
-- (void) application: (DDCliApplication *) app
-    willParseOptions: (DDGetoptLongParser *) optionParser;
+- (void)application:(DDCliApplication *)app
+   willParseOptions:(DDGetoptLongParser *)optionParser;
 
 @end
 
@@ -62,7 +62,7 @@
 @interface DDCliApplication : NSObject
 {
     @private
-    NSString * mName;
+    NSString * _name;
 }
 
 /**
@@ -70,14 +70,14 @@
  *
  * @return The common shared application
  */
-+ (DDCliApplication *) sharedApplication;
++ (DDCliApplication *)sharedApplication;
 
 /**
  * Returns the name of this application.
  *
  * @return The name of this application
  */
-- (NSString *) name;
+- (NSString *)name;
 
 /**
  * Returns the name of this application.  Coupled with the
@@ -90,7 +90,7 @@
  *
  * @return The application name
  */
-- (NSString *) description;
+- (NSString *)description;
 
 /**
  * Runs a command line application with the specified delegate class,
@@ -98,9 +98,10 @@
  * delegate class, and releases it up completion.  Exceptions are
  * trapped, and an error message is printed.
  *
- * @param delegateClass The class of the delegate
+ * @param delegateClass The class of the delegate or <code>nil</code>
+ *   to search all classes for the delegate.
  */
-- (int) runWithClass: (Class) delegateClass;
+- (int)runWithClass:(Class)delegateClass;
 
 @end
 
@@ -117,23 +118,33 @@ extern DDCliApplication * DDCliApp;
  * This sets up an autorelease pool, and creates an instance of the
  * delegate class.
  *
- * @param delegateClass Class to instantiate for the delegate.
+ * @param delegateClass Class to instantiate for the delegate or
+ *   <code>nil</code> to specify the default delegate class.
  */
 int DDCliAppRunWithClass(Class delegateClass);
+
+/**
+ * Runs a command line application with the default delegate class.  To find
+ * the default delegate class, all classes are searched until one is found
+ * that implements the DDCliApplicationDelegate protocol.  The first matching
+ * class is used as the delegate class, so be sure to only include a single
+ * class that implements this protocol per application.
+ */
+int DDCliAppRunWithDefaultClass();
 
 /** @} */
 
 /**
- * @example simple.m
+ * @example SimpleApp.m
  *
  * This is a very simple example application.
  *
+ * @include ddcli_main.m
  * @include SimpleApp.h
- * @include SimpleApp.m
  */
 
 /**
- * @example example.m
+ * @example ExampleApp.m
  *
  * This is a slighly more complex example application.  Here are a
  * few sample runs of this program:
@@ -173,6 +184,6 @@ Arguments: ("one.c", "two.c")
  *
  * Here is the source code:
  *
+ * @include ddcli_main.m
  * @include ExampleApp.h
- * @include ExampleApp.m
  */

@@ -7,6 +7,7 @@
 //
 
 #import "WebKitToolController.h"
+#import "DDCliParseException.h"
 #import "Version.h"
 
 

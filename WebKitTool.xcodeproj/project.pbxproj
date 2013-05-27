@@ -11,9 +11,12 @@
 		8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
 		AA6E9C1011D14A9F0015B328 /* WebKitToolController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6E9C0F11D14A9F0015B328 /* WebKitToolController.m */; };
 		AA6E9C2211D14B810015B328 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA6E9C2111D14B810015B328 /* WebKit.framework */; };
-		AA6E9C8711D14F660015B328 /* libddcli.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA6E9C8611D14F660015B328 /* libddcli.a */; };
 		AA6E9D0F11D165790015B328 /* CaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6E9D0E11D165790015B328 /* CaptureManager.m */; };
 		AA6E9DD911D17A010015B328 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA6E9DD811D17A010015B328 /* AppKit.framework */; };
+		AAA4A46217539F540002A5B3 /* DDCliApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA4A45C17539F540002A5B3 /* DDCliApplication.m */; };
+		AAA4A46317539F540002A5B3 /* DDCliUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA4A45E17539F540002A5B3 /* DDCliUtil.m */; };
+		AAA4A4671753A02C0002A5B3 /* DDCliParseException.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA4A4661753A02C0002A5B3 /* DDCliParseException.m */; };
+		AAA4A46A1753A0640002A5B3 /* DDGetoptLongParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA4A4691753A0640002A5B3 /* DDGetoptLongParser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,11 +39,19 @@
 		AA6E9C0E11D14A9F0015B328 /* WebKitToolController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebKitToolController.h; sourceTree = "<group>"; };
 		AA6E9C0F11D14A9F0015B328 /* WebKitToolController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebKitToolController.m; sourceTree = "<group>"; };
 		AA6E9C2111D14B810015B328 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		AA6E9C8611D14F660015B328 /* libddcli.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libddcli.a; path = Libraries/libddcli.a; sourceTree = "<group>"; };
 		AA6E9D0D11D165790015B328 /* CaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureManager.h; sourceTree = "<group>"; };
 		AA6E9D0E11D165790015B328 /* CaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureManager.m; sourceTree = "<group>"; };
 		AA6E9DD811D17A010015B328 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		AA6EA01811D1B42A0015B328 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
+		AAA4A45B17539F540002A5B3 /* DDCliApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCliApplication.h; sourceTree = "<group>"; };
+		AAA4A45C17539F540002A5B3 /* DDCliApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCliApplication.m; sourceTree = "<group>"; };
+		AAA4A45D17539F540002A5B3 /* DDCliUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCliUtil.h; sourceTree = "<group>"; };
+		AAA4A45E17539F540002A5B3 /* DDCliUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCliUtil.m; sourceTree = "<group>"; };
+		AAA4A45F17539F540002A5B3 /* DDCommandLineInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCommandLineInterface.h; sourceTree = "<group>"; };
+		AAA4A4651753A02C0002A5B3 /* DDCliParseException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDCliParseException.h; sourceTree = "<group>"; };
+		AAA4A4661753A02C0002A5B3 /* DDCliParseException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCliParseException.m; sourceTree = "<group>"; };
+		AAA4A4681753A0640002A5B3 /* DDGetoptLongParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDGetoptLongParser.h; sourceTree = "<group>"; };
+		AAA4A4691753A0640002A5B3 /* DDGetoptLongParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDGetoptLongParser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +61,6 @@
 			files = (
 				8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */,
 				AA6E9C2211D14B810015B328 /* WebKit.framework in Frameworks */,
-				AA6E9C8711D14F660015B328 /* libddcli.a in Frameworks */,
 				AA6E9DD911D17A010015B328 /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -63,7 +73,7 @@
 			children = (
 				08FB7795FE84155DC02AAC07 /* Source */,
 				AA6E9BF411D14A180015B328 /* Classes */,
-				AA6E9C6F11D14D110015B328 /* Linked Libraries */,
+				AAA4A45917539F540002A5B3 /* Libraries */,
 				08FB779DFE84155DC02AAC07 /* External Frameworks and Libraries */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
@@ -109,12 +119,28 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
-		AA6E9C6F11D14D110015B328 /* Linked Libraries */ = {
+		AAA4A45917539F540002A5B3 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				AA6E9C8611D14F660015B328 /* libddcli.a */,
+				AAA4A45A17539F540002A5B3 /* ddcli */,
 			);
-			name = "Linked Libraries";
+			path = Libraries;
+			sourceTree = "<group>";
+		};
+		AAA4A45A17539F540002A5B3 /* ddcli */ = {
+			isa = PBXGroup;
+			children = (
+				AAA4A45B17539F540002A5B3 /* DDCliApplication.h */,
+				AAA4A45C17539F540002A5B3 /* DDCliApplication.m */,
+				AAA4A4651753A02C0002A5B3 /* DDCliParseException.h */,
+				AAA4A4661753A02C0002A5B3 /* DDCliParseException.m */,
+				AAA4A45D17539F540002A5B3 /* DDCliUtil.h */,
+				AAA4A45E17539F540002A5B3 /* DDCliUtil.m */,
+				AAA4A45F17539F540002A5B3 /* DDCommandLineInterface.h */,
+				AAA4A4681753A0640002A5B3 /* DDGetoptLongParser.h */,
+				AAA4A4691753A0640002A5B3 /* DDGetoptLongParser.m */,
+			);
+			path = ddcli;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,7 +174,11 @@
 			};
 			buildConfigurationList = 1DEB927808733DD40010E9CD /* Build configuration list for PBXProject "WebKitTool" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 08FB7794FE84155DC02AAC07 /* WebKitTool */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -166,6 +196,10 @@
 				8DD76F9A0486AA7600D96B5E /* WebKitTool.m in Sources */,
 				AA6E9C1011D14A9F0015B328 /* WebKitToolController.m in Sources */,
 				AA6E9D0F11D165790015B328 /* CaptureManager.m in Sources */,
+				AAA4A46217539F540002A5B3 /* DDCliApplication.m in Sources */,
+				AAA4A46317539F540002A5B3 /* DDCliUtil.m in Sources */,
+				AAA4A4671753A02C0002A5B3 /* DDCliParseException.m in Sources */,
+				AAA4A46A1753A0640002A5B3 /* DDGetoptLongParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,10 +218,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WebKitTool_Prefix.pch;
 				INSTALL_PATH = /usr/local/bin;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Libraries\"";
 				PRODUCT_NAME = WebKitTool;
 			};
@@ -202,10 +232,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WebKitTool_Prefix.pch;
 				INSTALL_PATH = /usr/local/bin;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Libraries\"";
 				PRODUCT_NAME = WebKitTool;
 			};
@@ -217,28 +243,26 @@
 				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = 4.0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH)";
+				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_ACTUAL)";
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				USER_HEADER_SEARCH_PATHS = Libraries/Headers;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		1DEB927A08733DD40010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = 4.0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				USER_HEADER_SEARCH_PATHS = Libraries/Headers;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};

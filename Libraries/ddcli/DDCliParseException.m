@@ -22,44 +22,31 @@
  * SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
+#import "DDCliParseException.h"
 
 
-/**
- * A option parsing exception. This should cause the program to
- * terminate with the given exit code.
- */
-@interface DDCliParseException : NSException
+@implementation DDCliParseException
+
++ (DDCliParseException *)parseExceptionWithReason:(NSString *)reason
+                                         exitCode:(int)exitCode;
 {
-    @private
-    int mExitCode;
+    return [[[self alloc] initWithReason: reason
+                                exitCode: exitCode] autorelease];
 }
 
-/**
- * Create a new exception with a given reason and exit code.
- *
- * @param reason Reason for the exception
- * @param exitCode Desired exit code
- * @return Autoreleased exception
- */
-+ (DDCliParseException *) parseExceptionWithReason: (NSString *) reason
-                                          exitCode: (int) exitCode;
+- (id)initWithReason:(NSString *)reason
+            exitCode:(int)exitCode;
+{
+    self = [super initWithName: NSStringFromClass([self class])
+                        reason: reason
+                      userInfo: nil];
+    _exitCode = exitCode;
+    return self;
+}
 
-/**
- * Create a new exception with a given reason and exit code.
- *
- * @param reason Reason for the exception
- * @param exitCode Desired exit code
- * @return New exception
- */
-- (id) initWithReason: (NSString *) reason
-             exitCode: (int) exitCode;
-
-/**
- * Returns the desired exit code.
- *
- * @return The desired exit code
- */
-- (int) exitCode;
+- (int)exitCode;
+{
+    return _exitCode;
+}
 
 @end
