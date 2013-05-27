@@ -213,12 +213,11 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WebKitTool_Prefix.pch;
 				INSTALL_PATH = /usr/local/bin;
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Libraries\"";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = WebKitTool;
 			};
 			name = Debug;
@@ -228,11 +227,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WebKitTool_Prefix.pch;
 				INSTALL_PATH = /usr/local/bin;
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Libraries\"";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = WebKitTool;
 			};
 			name = Release;
